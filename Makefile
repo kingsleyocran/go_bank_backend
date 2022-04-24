@@ -34,5 +34,8 @@ sqlcinit:
 sqlcgen:
 	sqlc generate
 
+testunit:
+	go test -v -cover ./...
 
-.PHONY: createdb dropdb postgresinit postgresinitdb dockerstart dockerstop psql migrateup migratedown migratecreate sqlcgen sqlcinit
+
+.PHONY: createdb dropdb postgresinit postgresinitdb dockerstart dockerstop psql migrateup migratedown migratecreate sqlcgen sqlcinit testunit
