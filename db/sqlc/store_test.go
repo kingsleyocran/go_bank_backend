@@ -185,6 +185,12 @@ func TestTransferTxDeadlock(t *testing.T) {
 
 	// run n concurrent transfer transaction
 	for i := 0; i < n; i++ {
+		//Printing the tx name is good for debugging errors like deadlock
+		txName := fmt.Sprintf("tx %d", i+1)
+
+		//You can use context.WithValue() to get thr tx name
+		ctx := context.WithValue(context.Background(), txKey, txName)
+
 		fromAccountID := account1.ID
 		toAccountID := account2.ID
 
@@ -195,7 +201,7 @@ func TestTransferTxDeadlock(t *testing.T) {
 		}
 
 		go func() {
-			_, err := store.TransferTx(context.Background(), TransferTxParams{
+			_, err := store.TransferTx(ctx, TransferTxParams{
 				FromAccountID: fromAccountID,
 				ToAccountID:   toAccountID,
 				Amount:        amount,
