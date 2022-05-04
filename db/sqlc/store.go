@@ -68,6 +68,7 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 		txName := ctx.Value(txKey)
 
 		log.Println(txName, "create transfer")
+
 		result.Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
 			FromAccountID: arg.FromAccountID,
 			ToAccountID:   arg.ToAccountID,

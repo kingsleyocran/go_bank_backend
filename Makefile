@@ -37,5 +37,7 @@ sqlcgen:
 testunit:
 	go test -v -cover ./...
 
+server:
+	go run main.go
 
-.PHONY: createdb dropdb postgresinit postgresinitdb dockerstart dockerstop psql migrateup migratedown migratecreate sqlcgen sqlcinit testunit
+.PHONY: createdb dropdb postgresinit postgresinitdb dockerstart dockerstop psql migrateup migratedown migratecreate sqlcgen sqlcinit testunit server
