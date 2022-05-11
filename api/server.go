@@ -14,7 +14,7 @@ banking service. It will have 2 fields:
 */
 
 type Server struct {
-	store  *db.Store
+	store  db.Store
 	router *gin.Engine
 }
 
@@ -23,7 +23,7 @@ NewServer takes a db.Store as input, and return a Server. This function will cre
 instance, and setup all HTTP API routes for our service on that server.
 */
 
-func NewServer(store *db.Store) *Server {
+func NewServer(store db.Store) *Server {
 	server := &Server{store: store}
 	router := gin.Default()
 
