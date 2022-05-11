@@ -47,5 +47,15 @@ jobs:
     - name: Run migrations
       run: make migrateup
 
+    - name: Install mockgen
+      run: |
+        go install github.com/golang/mock/mockgen@v1.6.0
+        sudo ln -s ~/go/bin/* /usr/local/bin/
+        go get github.com/golang/mock/mockgen@v1.6.0
+        which mockgen
+
+    - name: Generate mock
+      run: make mock
+
     - name: Test
       run: make testunit

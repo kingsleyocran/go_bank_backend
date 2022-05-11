@@ -10,7 +10,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	mockdb "github.com/kingsleyocran/simple_bank_bankend/db/mock"
 	db "github.com/kingsleyocran/simple_bank_bankend/db/sqlc"
@@ -174,6 +173,7 @@ func TestGetAccountAPI(t *testing.T) {
 	*/
 }
 
+/*
 func TestCreateAccountAPI(t *testing.T) {
 
 	username := util.RandomOwnerName()
@@ -412,3 +412,4 @@ func TestListAccountsAPI(t *testing.T) {
 		})
 	}
 }
+*/
