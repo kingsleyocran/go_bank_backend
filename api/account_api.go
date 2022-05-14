@@ -2,10 +2,12 @@ package api
 
 import (
 	"database/sql"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	db "github.com/kingsleyocran/simple_bank_bankend/db/sqlc"
+	"github.com/lib/pq"
 )
 
 //Struct to handle request from http
@@ -14,7 +16,7 @@ import (
 //To be safe copy the createAccountParams to maintain the names and json
 type createAccountRequest struct {
 	OwnerName string `json:"owner_name" binding:"required"`
-	Currency  string `json:"currency" binding:"required,oneof=USD EUR"`
+	Currency  string `json:"currency" binding:"required,currency"`
 }
 
 //createAccount request and response handler function
@@ -37,7 +39,18 @@ func (server *Server) createAccount(ctx *gin.Context) {
 	//run createAccount with arg
 	account, err := server.store.CreateAccount(ctx, arg)
 	if err != nil {
-		//return error as response
+		if pqErr, ok := err.(*pq.Error); ok {
+			//First print error and see how creating a new account without a user will be
+			//In pur case it's  "foreign_key_violation" and "unique_violation"
+			//This is how you return a custom http error code that is not what you want
+			log.Println(pqErr.Code.Name())
+
+			switch pqErr.Code.Name() {
+			case "foreign_key_violation", "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(err))
+				return
+			}
+		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}

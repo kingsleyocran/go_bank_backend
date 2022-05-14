@@ -1,39 +1,35 @@
 -- name: CreateAccount :one
-INSERT INTO accounts (
-  owner_name,
-  balance,
-  currency
-) VALUES (
-  $1, $2, $3
-)RETURNING *;
+
+INSERT INTO
+	accounts (owner_name, balance, currency)
+VALUES
+	($1, $2, $3) RETURNING *;
 
 -- name: GetAccount :one
-SELECT * FROM accounts
-WHERE id = $1 LIMIT 1;
+
+SELECT * FROM accounts WHERE id = $1 LIMIT 1;
 
 -- name: GetAccountForUpdate :one
-SELECT * FROM accounts
-WHERE id = $1 LIMIT 1
-FOR UPDATE;
+
+SELECT * FROM accounts WHERE id = $1 LIMIT 1 FOR UPDATE;
 
 -- name: ListAccounts :many
-SELECT * FROM accounts
-ORDER BY id
-LIMIT $1
-OFFSET $2;
+
+SELECT * FROM accounts ORDER BY id LIMIT $1 OFFSET $2;
 
 -- name: DeleteAccount :exec
-DELETE FROM accounts
-WHERE id = $1;
+
+DELETE FROM accounts WHERE id = $1;
 
 -- name: UpdateAccountBalance :one
-UPDATE accounts
-SET balance = $2
-WHERE id = $1
-RETURNING *;
+
+UPDATE accounts SET balance = $2 WHERE id = $1 RETURNING *;
 
 -- name: AddAccountBalance :one
-UPDATE accounts
-SET balance = balance + sqlc.arg(amount)
-WHERE id = sqlc.arg(id)
-RETURNING *;
+
+UPDATE
+	accounts
+SET
+	balance = balance + sqlc.arg(amount)
+WHERE
+	id = sqlc.arg(id) RETURNING *;

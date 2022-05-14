@@ -28,6 +28,14 @@ migrateup:
 migratedown: 
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
 
+migrateup1: 
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up 1
+
+migratedown1: 
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
+
+
+
 sqlcinit:
 	sqlc init
 
@@ -43,4 +51,4 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/kingsleyocran/simple_bank_bankend/db/sqlc Store
 
-.PHONY: createdb dropdb postgresinit postgresinitdb dockerstart dockerstop psql migrateup migratedown migratecreate sqlcgen sqlcinit testunit server mock
+.PHONY: createdb dropdb postgresinit postgresinitdb dockerstart dockerstop psql migrateup migratedown migrateup1 migratedown1 migratecreate sqlcgen sqlcinit testunit server mock
